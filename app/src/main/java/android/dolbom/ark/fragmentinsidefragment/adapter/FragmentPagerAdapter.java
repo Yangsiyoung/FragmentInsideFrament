@@ -22,22 +22,21 @@ public class FragmentPagerAdapter extends FragmentStatePagerAdapter {
     }
     @Override
     public Fragment getItem(int position) {
+        if(position > tabCount){
+            position = 0;
+        }
         switch (position){
             case 0:
-                FirstInnerFragment firstInnerFragment = new FirstInnerFragment();
-                return firstInnerFragment;
+                return new FirstInnerFragment();
 
             case 1:
-                SecondInnerFragment secondInnerFragment = new SecondInnerFragment();
-                return secondInnerFragment;
+                return new SecondInnerFragment();
 
             case 2:
-                ThirdInnerFragment thirdInnerFragment = new ThirdInnerFragment();
-                return thirdInnerFragment;
+                return new ThirdInnerFragment();
 
             case 3:
-                FourthInnerFragment fourthInnerFragment = new FourthInnerFragment();
-                return fourthInnerFragment;
+                return new FourthInnerFragment();
 
             default:
                 return null;

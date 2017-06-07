@@ -25,23 +25,22 @@ public class ToolBarTabPagerAdapter extends FragmentStatePagerAdapter{
     @Override
     public Fragment getItem(int position) {
 
+        if(position > tabCount){
+            position = 0;
+        }
+
         switch (position){
             case 0:
-                FirstFragment firstFragment = new FirstFragment();
-                return firstFragment;
+                return new FirstFragment();
 
             case 1:
-                SecondFragment secondFragment = new SecondFragment();
-                return secondFragment;
+                return new SecondFragment();
 
             case 2:
-                ThirdFragment thirdFragment = new ThirdFragment();
-                return thirdFragment;
+                return new ThirdFragment();
 
             case 3:
-                FourthFragment fourthFragment = new FourthFragment();
-                return fourthFragment;
-
+                return new FourthFragment();
             default:
                 return null;
         }

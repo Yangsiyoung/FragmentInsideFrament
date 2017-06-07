@@ -6,10 +6,13 @@ import android.dolbom.ark.fragmentinsidefragment.adapter.FragmentPagerAdapter;
 import android.dolbom.ark.fragmentinsidefragment.adapter.ImageSlidePagerAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,9 @@ public class FirstFragment extends Fragment{
 
     private ImageSlidePagerAdapter imageSlidePagerAdapter;
 
+    private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
@@ -38,7 +44,14 @@ public class FirstFragment extends Fragment{
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+
+        toolbar = (Toolbar) view.findViewById(R.id.toolBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapseToolbarLayout);
+        collapsingToolbarLayout.setTitle("Hello");
+
         innerFragmentTabLayout = (TabLayout) view.findViewById(R.id.innerFragmentTabLayout);
         innerFragmentViewPager = (ViewPager) view.findViewById(R.id.innerFragmentViewPager);
 
@@ -48,7 +61,7 @@ public class FirstFragment extends Fragment{
         innerFragmentTabLayout.addTab(innerFragmentTabLayout.newTab().setText("4"));
         innerFragmentTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        fragmentPagerAdapter = new FragmentPagerAdapter(getActivity().getSupportFragmentManager(), innerFragmentTabLayout.getTabCount());
+        fragmentPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager(), innerFragmentTabLayout.getTabCount());
         innerFragmentViewPager.setAdapter(fragmentPagerAdapter);
         innerFragmentViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(innerFragmentTabLayout));
 
@@ -70,7 +83,7 @@ public class FirstFragment extends Fragment{
         });
 
         imgViewPager = (ViewPager) view.findViewById(R.id.imgViewPager);
-        imageSlidePagerAdapter = new ImageSlidePagerAdapter(getActivity().getSupportFragmentManager(), 4);
+        imageSlidePagerAdapter = new ImageSlidePagerAdapter(getChildFragmentManager(), 4);
         imgViewPager.setAdapter(imageSlidePagerAdapter);
     }
 
