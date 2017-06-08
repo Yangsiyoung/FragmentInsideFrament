@@ -1,21 +1,27 @@
 package android.dolbom.ark.fragmentinsidefragment.fragments;
 
 
+import android.content.res.Configuration;
 import android.dolbom.ark.fragmentinsidefragment.R;
 import android.dolbom.ark.fragmentinsidefragment.adapter.FragmentPagerAdapter;
 import android.dolbom.ark.fragmentinsidefragment.adapter.ImageSlidePagerAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * Created by samsung on 2017-06-06.
@@ -34,6 +40,12 @@ public class FirstFragment extends Fragment{
 
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+
+    private Button btnShowNavigationDrawer;
 
     @Nullable
     @Override
@@ -85,11 +97,44 @@ public class FirstFragment extends Fragment{
         imgViewPager = (ViewPager) view.findViewById(R.id.imgViewPager);
         imageSlidePagerAdapter = new ImageSlidePagerAdapter(getChildFragmentManager(), 4);
         imgViewPager.setAdapter(imageSlidePagerAdapter);
+
+       // btnShowNavigationDrawer = (Button) view.findViewById(R.id.btnShowNavigationDrawer);
+       // btnShowNavigationDrawer.setOnClickListener(onClickListener);
+
+        drawerLayout = (DrawerLayout) view.findViewById(R.id.drawerLayout);
+        actionBarDrawerToggle = setUpActionBarToggle();
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        navigationView = (NavigationView) view.findViewById(R.id.navigationView);
+
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.btnShowNavigationDrawer:
+                    drawerLayout.openDrawer(GravityCompat.START);
+                    break;
+            }
+        }
+    };
+
+    private ActionBarDrawerToggle setUpActionBarToggle(){
+        return new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     }
 }
